@@ -1,0 +1,15 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+#define SCREEN_HEIGHT 700
+#define SCREEN_WIDTH 700
+#define SCREEN_CENTER (Vector2){SCREEN_WIDTH/2, SCREEN_HEIGHT/2}
+
+#define NEARBLACK (Color) { 20, 20, 20, 255 }
+
+#define MAX_ASTEROIDS 64
+#define ASTEROID_RANDOM_ANGLE 20 * DEG2RAD
+#define ASTEROID_DELAY 0.75
+
+
+#endif

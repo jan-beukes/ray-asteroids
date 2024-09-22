@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "array": "c",
+        "string_view": "c",
+        "format": "c",
+        "initializer_list": "c",
+        "span": "c",
+        "raymath.h": "c",
+        "time.h": "c",
+        "stdlib.h": "c",
+        "string.h": "c",
+        "raylib.h": "c",
+        "player.h": "c"
+    }
+}
