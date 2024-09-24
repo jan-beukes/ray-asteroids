@@ -43,7 +43,6 @@ static void set_state(GameState state){
 
         case GAME_PLAYING:
             GuiSetStyle(DEFAULT, TEXT_SIZE, 12);
-            GuiSetStyle(BUTTON, BASE_COLOR_NORMAL , 0);
             PlayMusicStream(*_music);
 
             reset_asteroids();
@@ -64,8 +63,9 @@ static void set_state(GameState state){
 void init_game(Music *music){
     // GUI
     GuiSetStyle(COMBOBOX, BASE_COLOR_NORMAL, 0);
+    GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, 0);
     GuiSetStyle(DEFAULT, BORDER_COLOR_NORMAL, 0xf5f5f5ff);
-    GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, 0xf5f5f5ff);
+    GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, 0xffffffff);
 
     _music = music;
     SetMusicVolume(*music, 0.4);
@@ -109,28 +109,25 @@ void update_game(){
 }
 
 void draw_game(){
-    const int button_width = 200;
-    const int button_height = 80;
+    const int button_width = 300;
+    const int button_height = 120;
     Rectangle top_button = {SCREEN_CENTER.x - button_width/2, SCREEN_CENTER.y - button_height - 5, button_width, button_height};
     Rectangle quit_button = {SCREEN_CENTER.x - button_width/2, SCREEN_CENTER.y + button_height, button_width, button_height};
     
     switch(_state){
         case GAME_MENU:
-            GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, 0xff6dc2ff);
             if (GuiButton(top_button, "EASY")){
                 set_difficulty(EASY);
                 set_state(GAME_PLAYING);
                 break;
             }
-            GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, 0xc87affff);
-            top_button.y = top_button.y + button_height + 5;
+            top_button.y = top_button.y + button_height + 10;
             if (GuiButton(top_button, "REGULAR")){
                 set_difficulty(REGULAR);
                 set_state(GAME_PLAYING);
                 break;
             }
-            GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, 0xe62937ff);
-            top_button.y = top_button.y + button_height + 5;
+            top_button.y = top_button.y + button_height + 10;
             if (GuiButton(top_button, "PRO")){
                 set_difficulty(PRO);
                 set_state(GAME_PLAYING);
@@ -182,6 +179,8 @@ void draw_game(){
 }
 
 void game_over(){
+
+    // Save Score Junk
     if (!FileExists("high.score")){
         SaveFileData("high.score", NULL, 0);
     }

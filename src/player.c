@@ -6,6 +6,7 @@
 #include "game_asteroids.h"
 #include "asteroid.h"
 #include "game.h"
+#include <raylib.h>
 #include <raymath.h>
 #include <stdio.h>
 
@@ -19,10 +20,10 @@
 #define PLAYER_STUN_DURATION 0.3
 #define IFRAME_DURATION 1
 
+static Sound death_sound;
 static float fire_delay = 0.4;
 static int max_health = 5;
 int _health = 5;
-
 
 void set_player_max_health(int max){
     max_health = max;
@@ -36,7 +37,8 @@ void set_player_fire_delay(float delay){
 
 void init_player(Player *player){
     _health = max_health;
-      
+    death_sound = LoadSound("die.wav");
+    SetSoundVolume(death_sound, 0.5);
     *player = (Player){
         .position = SCREEN_CENTER,
         .velocity = (Vector2){0},
@@ -129,6 +131,7 @@ static void tick_state(Player *player){
 
 static void on_death(Player *player){
     update_state(player, PLAYER_DEAD);
+    PlaySound(death_sound);
 }
 
 static void player_colision(Player *player){
