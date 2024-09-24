@@ -2,9 +2,9 @@
 # $< - First dependancy
 # $^ - all dependancy
 
-CC = clang
+CC = gcc
 CFLAGS = -Wall -Wextra
-LFLAGS = -lraylib -lm
+LFLAGS = -l:libraylib.a -lm -lpthread -ldl
 
 # Directories
 SRC = src
@@ -22,9 +22,15 @@ game: $(OBJS)
 $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+docker: $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o output/game -L/raylib/src -lraylib -lm -lpthread -ldl
+
 run: game
 	./game
 	
 clean build:
-	rm $(OBJ)/*.o game
+	if test -f game; then \
+  		rm game; \
+	fi
+	rm $(OBJS)
 	make all
