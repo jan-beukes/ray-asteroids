@@ -2,7 +2,7 @@
 # $< - First dependancy
 # $^ - all dependancy
 
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra
 LFLAGS = -lraylib -lm
 
@@ -25,5 +25,6 @@ $(OBJ)/%.o: $(SRC)/%.c
 run: game
 	./game
 	
-clean:
+clean build:
 	rm $(OBJ)/*.o game
+	make all

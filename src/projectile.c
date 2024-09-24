@@ -1,10 +1,10 @@
 #include "projectile.h"
+#include "constants.h"
 #include <math.h>
 
-#define PROJECTILE_LIFETIME 2.0
 #define PROJECTILE_SPEED 600
-#define PROJECTILE_THICK 8
-#define PROJECTILE_LEN 25
+#define PROJECTILE_THICK 4.5
+//#define PROJECTILE_LEN 20
 #define PROJECTILE_COLOUR PURPLE
 
 Projectile create_projectile(Vector2 position, float rotation){
@@ -20,8 +20,8 @@ bool update_projectile(Projectile *projectile, float frametime, float time){
     if (!projectile->active){
         return false; 
     }
-    
-    if (time > projectile->creation_time + PROJECTILE_LIFETIME){
+    if (time > projectile->creation_time + PROJECTILE_LIFETIME 
+        || !CheckCollisionPointRec(projectile->position, SCREEN_RECT)){
         projectile->active = false;
         return false;
     }
@@ -33,7 +33,10 @@ bool update_projectile(Projectile *projectile, float frametime, float time){
 }
 
 void draw_projectile(Projectile projectile){
-    Rectangle rect = {projectile.position.x, projectile.position.y, PROJECTILE_LEN, PROJECTILE_THICK};
-    Vector2 origin = {rect.width/2, rect.height/2};
-    DrawRectanglePro(rect, origin, projectile.rotation, PROJECTILE_COLOUR);
+
+    DrawCircleV(projectile.position, PROJECTILE_THICK, PROJECTILE_COLOUR);
+
+    // DrawCircleSector(projectile.position, PROJECTILE_LEN, 180 + projectile.rotation + PROJECTILE_THICK,
+    //                  180 + projectile.rotation - PROJECTILE_THICK, 10, PROJECTILE_COLOUR);
+
 }

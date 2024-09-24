@@ -1,6 +1,8 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
+#define PROJECTILE_LIFETIME 2.0
+
 #include <raylib.h>
 
 typedef struct {

@@ -8,7 +8,6 @@
 #define ASTEROID_MAX_ROT_SPEED 240
 #define ASTEROID_MIN_SPEED 100
 #define ASTEROID_MAX_SPEED 300
-#define ASTEROID_LIFETIME 10
 
 typedef enum {
     ASTEROID_SMALL = 1,
@@ -18,6 +17,7 @@ typedef enum {
 
 typedef struct{
     bool active;
+    bool has_entered_screen;
     Vector2 position;
     Vector2 velocity;
     AsteroidSize size;
@@ -31,5 +31,6 @@ typedef struct{
 Asteroid create_asteroid(Vector2 position, Vector2 velocity, AsteroidSize size);
 bool asteroid_update(Asteroid *asteroid, float frametime, float time);
 void asteroid_draw(Asteroid asteroid);
+float asteroid_radius(Asteroid asteroid);
 
 #endif

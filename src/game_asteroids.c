@@ -1,23 +1,37 @@
 #include "game_asteroids.h"
 #include "constants.h"
+#include "score.h"
 
 #include <raymath.h>
 #include "debug.h"
 
 static AsteroidSize sizes[] = { ASTEROID_SMALL, ASTEROID_MEDIUM, ASTEROID_LARGE };
-static Asteroid asteroids[MAX_ASTEROIDS] = { 0 };
+static Asteroid asteroids[MAX_ASTEROIDS] = {0};
 static float _last_asteroid_creation_time = -1.0;
+static float asteroid_delay = 1;
 
-void add_asteroid(Vector2 position, AsteroidSize size)
+void set_asteroid_delay(float delay){
+    asteroid_delay = delay;
+}
+
+void add_asteroid(Vector2 position, AsteroidSize size, bool spawn, float proj_angle) // Proj angle for split asteroids
 {
     bool created = false;
-
-    Vector2 velocity = Vector2Subtract(SCREEN_CENTER, position);
-    velocity = Vector2Normalize(velocity);
-    velocity = Vector2Scale(velocity, GetRandomValue(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED));
+    Vector2 velocity;
+    float speed_mod = 1;
+    if (spawn){
+        velocity = Vector2Subtract(SCREEN_CENTER, position);
+        velocity = Vector2Normalize(velocity);
+    }else{
+        float angle = GetRandomValue(proj_angle-90, proj_angle+90);
+        velocity = (Vector2){cos(angle * DEG2RAD), sin(angle * DEG2RAD)};
+        speed_mod = SPLIT_SPEED_MOD;
+    }
+    velocity = Vector2Scale(velocity, GetRandomValue(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED) * speed_mod);
     
-    set_last_cone(position, velocity);
-
+    //Debug
+    set_last_asteroid_direction(position, atan2(velocity.y, velocity.x) * RAD2DEG, spawn);
+    
     // Random Rotation
     velocity = Vector2Rotate(velocity, (float) GetRandomValue(-ASTEROID_RANDOM_ANGLE, ASTEROID_RANDOM_ANGLE));
 
@@ -70,9 +84,9 @@ int update_asteroids(){
         }
     }
 
-    if (time > _last_asteroid_creation_time + ASTEROID_DELAY){
+    if (time > _last_asteroid_creation_time + asteroid_delay){
         AsteroidSize next_size = sizes[GetRandomValue(0, 2)];
-        add_asteroid(get_next_asteroid_position(), next_size);
+        add_asteroid(get_next_asteroid_position(), next_size, true, 0);
         _last_asteroid_creation_time = time;
     }
 
@@ -83,4 +97,40 @@ void draw_asteroids(){
     for (int i = 0; i < MAX_ASTEROIDS; i++){
         asteroid_draw(asteroids[i]);
     }
+}
+
+void destroy_asteroid_at(int index, float proj_angle){
+    asteroids[index].active = false;
+    Asteroid asteroid = asteroids[index];
+
+    int points = asteroid.size * 10;
+    switch (asteroid.size){
+        case ASTEROID_LARGE: 
+            add_asteroid(asteroid.position, ASTEROID_MEDIUM, false, proj_angle);
+            add_asteroid(asteroid.position, ASTEROID_MEDIUM, false, proj_angle);
+            break;
+
+        case ASTEROID_MEDIUM:
+            add_asteroid(asteroid.position, ASTEROID_SMALL, false, proj_angle);
+            add_asteroid(asteroid.position, ASTEROID_SMALL, false, proj_angle);
+            break;
+
+        default:
+            break;
+    }
+
+    add_points(points);
+}
+
+void reset_asteroids(){
+    for (int i = 0; i < MAX_ASTEROIDS; i++){
+        asteroids[i] = (Asteroid){0};
+    }
+
+    _last_asteroid_creation_time = -1;
+
+}
+
+Asteroid *get_asteroids(){
+    return asteroids;
 }

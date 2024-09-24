@@ -4,7 +4,6 @@
 #include <raylib.h>
 
 void show_debug_menu();
-void show_debug_visualizations();
-void set_last_cone(Vector2 position, Vector2 velocity);
-void set_player_info(Vector2 position, Vector2 velocity, float rotation);
+void show_debug_visualizations(int asteroid_count);
+void set_last_asteroid_direction(Vector2 position, float angle, bool spawn);
 #endif

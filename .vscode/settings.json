@@ -10,6 +10,25 @@
         "stdlib.h": "c",
         "string.h": "c",
         "raylib.h": "c",
-        "player.h": "c"
+        "player.h": "c",
+        "raygui.h": "c",
+        "rlgl.h": "c",
+        "math.h": "c",
+        "projectile.h": "c",
+        "charconv": "c",
+        "chrono": "c",
+        "optional": "c",
+        "ratio": "c",
+        "system_error": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "game_asteroids.h": "c",
+        "debug.h": "c",
+        "asteroid.h": "c",
+        "constants.h": "c",
+        "stdio.h": "c",
+        "score.h": "c"
     }
 }
