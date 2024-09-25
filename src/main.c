@@ -24,7 +24,7 @@ int main(){
     InitWindow(SCREEN_WIDTH, SCREEN_WIDTH, "Asteroids");
     
     InitAudioDevice();
-    Music music = LoadMusicStream("tetris.mp3");
+    Music music = LoadMusicStream("resources/tetris.mp3");
     init_game(&music);
     
     while (!WindowShouldClose() && !_quit_game) {

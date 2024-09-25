@@ -37,7 +37,7 @@ void set_player_fire_delay(float delay){
 
 void init_player(Player *player){
     _health = max_health;
-    death_sound = LoadSound("die.wav");
+    death_sound = LoadSound("resources/die.wav");
     SetSoundVolume(death_sound, 0.5);
     *player = (Player){
         .position = SCREEN_CENTER,
