@@ -7,8 +7,10 @@
 #include "score.h"
 #include "player.h"
 
+#include <raylib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdio.h>
 #include "raygui.h"
 
 int active_asteroids = 0;
@@ -16,6 +18,9 @@ static Player player = {0};
 static Texture2D player_texture;
 Music *_music;
 char *high_score = NULL;
+Sound asteroid_sound;
+Sound laser_shoot;
+
 
 extern bool _quit_game;
 
@@ -68,6 +73,10 @@ void init_game(Music *music){
     GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, 0xffffffff);
 
     _music = music;
+    asteroid_sound = LoadSound("resources/asteroid_hit.wav");
+    laser_shoot = LoadSound("resources/laser_shoot.wav");
+    SetSoundVolume(asteroid_sound, 0.1);
+    SetSoundVolume(laser_shoot, 0.2);
     SetMusicVolume(*music, 0.4);
     set_state(GAME_MENU);
     player_texture = LoadTexture("resources/ship.png");
@@ -175,6 +184,19 @@ void draw_game(){
 
             break;
     }
+
+}
+
+void play_sound(char *sound_name){
+    if (strcmp(sound_name,"laser_shoot") == 0){
+        PlaySound(laser_shoot);
+        return;
+    }
+    if (strcmp(sound_name,"asteroid_sound") == 0){
+        PlaySound(asteroid_sound);
+        return;
+    }
+    
 
 }
 

@@ -1,7 +1,9 @@
 #include "game_asteroids.h"
 #include "constants.h"
 #include "score.h"
+#include "game.h"
 
+#include <raylib.h>
 #include <raymath.h>
 #include "debug.h"
 
@@ -118,7 +120,7 @@ void destroy_asteroid_at(int index, float proj_angle){
         default:
             break;
     }
-
+    play_sound("asteroid_sound");
     add_points(points);
 }
 

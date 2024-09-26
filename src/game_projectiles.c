@@ -1,6 +1,7 @@
 #include "game_projectiles.h"
 #include "asteroid.h"
 #include "constants.h"
+#include "game.h"
 #include "game_asteroids.h"
 
 
@@ -18,7 +19,7 @@ void set_projectile_max(int max){
 
 }
 void add_projectile(Vector2 position, float rotation){
-
+    play_sound("laser_shoot");
     for (int i = 0; i < projectile_max; i++){
         if (projectiles[i].active){
             continue;
@@ -46,7 +47,6 @@ void update_projectiles(){
         if (update_projectile(&projectiles[i], frametime, time)){             
             for (int j = 0; j < MAX_ASTEROIDS; j++){
                 if (check_projectile_collision(&projectiles[i], &asteroids[j])){
-                    
                     destroy_asteroid_at(j, projectiles[i].rotation);
                     projectiles[i].active = false;
 
