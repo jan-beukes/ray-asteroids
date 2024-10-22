@@ -13,5 +13,5 @@ RUN mkdir output/
 
 COPY . /app
 
-CMD ["make" , "docker"]
+#CMD ["make" , "docker"]
 

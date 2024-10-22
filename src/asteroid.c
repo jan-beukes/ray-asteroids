@@ -16,7 +16,7 @@ Asteroid create_asteroid(Vector2 position, Vector2 velocity, AsteroidSize size)
 }
 
 bool asteroid_update(Asteroid* asteroid, float frametime, float time)
-{
+{   
     if (!asteroid->active) {
         return false;
     }

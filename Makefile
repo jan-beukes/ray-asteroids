@@ -6,6 +6,11 @@ CC = gcc
 CFLAGS = -Wall -Wextra
 LFLAGS = -l:libraylib.a -lm -lpthread -ldl
 
+# MAGIC
+EMFLAGS = --preload-file resources -Os -Wall lib/librayweb.a -I/usr/local/include/ -s USE_GLFW=3
+EMFLAGS += -s ASYNCIFY # Fix main loop thing
+EMFLAGS += --shell-file ~/Projects/c-libs/raylib/src/minshell.html -DPLATFORM_WEB
+
 # Directories
 SRC = src
 OBJ = obj
@@ -14,6 +19,10 @@ SRCS = $(wildcard $(SRC)/*.c) # wildcard function read all mathing the expressio
 OBJS = $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRCS)) # $(patsubst <pattern>, <replacement>, <text>)
 
 all: game
+
+web: $(SRCS)
+	emcc -o game.html $^ $(EMFLAGS)
+	rm game.html
 
 game: $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LFLAGS)
