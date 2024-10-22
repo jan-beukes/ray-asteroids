@@ -1,8 +1,14 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#if defined(PLATFORM_WEB)
+#define SCREEN_HEIGHT 900
+#define SCREEN_WIDTH 900
+#else
 #define SCREEN_HEIGHT 800
 #define SCREEN_WIDTH 800
+#endif
+
 #define SCREEN_CENTER (Vector2){SCREEN_WIDTH/2, SCREEN_HEIGHT/2}
 #define SCREEN_RECT (Rectangle) {0,0,SCREEN_WIDTH, SCREEN_HEIGHT}
 

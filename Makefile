@@ -21,7 +21,7 @@ OBJS = $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRCS)) # $(patsubst <pattern>, <replac
 all: game
 
 web: $(SRCS)
-	emcc -o game.html $^ $(EMFLAGS)
+	source ~/Cloned/emsdk/emsdk_env.sh && emcc -o game.html $^ $(EMFLAGS)
 	rm game.html
 
 game: $(OBJS)
